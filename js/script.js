@@ -1,14 +1,13 @@
 function goCity(city) {
-    const routes = {
-      Jakarta: "Tempat/Jakarta.html",
-      Bandung: "Tempat/bandung.html",
-      Jogja: "Tempat/jogja.html",
-      Malang: "Tempat/malang.html",
-      Bali: "Tempat/bali.html",
-    };
-    window.location.href = routes[city];
-  }
-
+  const routes = {
+    Jakarta: "Tempat/Jakarta.html",
+    Bandung: "Tempat/bandung.html",
+    Jogja: "Tempat/jogja.html",
+    Malang: "Tempat/malang.html",
+    Bali: "Tempat/bali.html",
+  };
+  window.location.href = routes[city];
+}
 
 // --- SLIDESHOW HERO ---
 const images = [
@@ -126,7 +125,4 @@ window.onclick = () =>
     .forEach((m) => m.classList.remove("show"));
 
 updateUI();
-
-
-// search
 
