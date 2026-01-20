@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Malang | TravEdu Indonesia</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
+
+    <style>
+      body {
+        background: #000;
+      }
+
+      .glass {
+        background: rgba(255, 255, 255, 0.04);
+        backdrop-filter: blur(14px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      /* Slideshow */
+      .bg-slide {
+        position: absolute;
+        inset: 0;
+        background-size: cover;
+        background-position: center;
+        opacity: 0;
+        transform: scale(1.1);
+        transition:
+          opacity 1.5s ease-in-out,
+          transform 10s linear;
+      }
+      .bg-slide.active {
+        opacity: 1;
+        transform: scale(1);
+      }
+    </style>
+  </head>
+
+  <body class="text-white font-sans overflow-x-hidden">
+    <nav
+      class="fixed top-0 w-full z-50 bg-white/10 backdrop-blur-md border-b border-white/10"
+    >
+      <div
+        class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between"
+      >
+        <a
+          href="../index.html"
+          class="text-xl font-bold bg-gradient-to-r from-blue-500 to-cyan-400 bg-clip-text text-transparent"
+        >
+          TravEdu
+        </a>
+        <a
+          href="../index.html#map-section"
+          class="text-sm px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 transition"
+        >
+          <i class="fas fa-arrow-left mr-2"></i>Kembali
+        </a>
+      </div>
+    </nav>
+
+    <section
+      class="relative h-screen w-full overflow-hidden flex items-center justify-center"
+    >
+      <div id="malang-bg" class="absolute inset-0"></div>
+
+      <div
+        class="absolute inset-0 bg-gradient-to-b from-black/70 via-black/30 to-black/90 z-10"
+      ></div>
+
+      <div class="relative z-20 text-center px-6 max-w-4xl">
+        <h2
+          class="text-blue-400 tracking-[0.3em] text-sm mb-4 uppercase animate-pulse"
+        >
+          The Heart of East Java
+        </h2>
+        <h1 class="text-5xl md:text-7xl font-black uppercase mb-6">Malang</h1>
+        <p class="text-gray-300 max-w-2xl mx-auto text-lg">
+          Kota bunga yang menawarkan kesejukan udara pegunungan, jejak kolonial
+          yang artistik, dan gerbang menuju kemegahan Gunung Bromo.
+        </p>
+      </div>
+
+      <div
+        id="malang-timer"
+        class="absolute bottom-0 left-0 h-1 bg-blue-600 z-30"
+        style="width: 0%"
+      ></div>
+    </section>
+
+    <section class="py-24 px-6">
+      <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div class="lg:col-span-2 glass p-8 rounded-3xl">
+          <h3 class="text-2xl font-bold mb-4 text-blue-400">Tentang Malang</h3>
+          <p class="text-gray-300 leading-relaxed">
+            Terletak di dataran tinggi, Malang dikenal dengan udaranya yang
+            segar dan atmosfer kotanya yang tenang. Sebagai kota pendidikan
+            terbesar kedua di Jawa Timur, Malang memadukan warisan sejarah masa
+            Kerajaan Singasari dan era kolonial Belanda dengan inovasi wisata
+            modern yang kreatif.
+          </p>
+          <p class="text-gray-400 mt-4">
+            Mulai dari keunikan Kampung Warna-warni, kelezatan Bakso Malang yang
+            legendaris, hingga akses menuju keajaiban dunia di Bromo, Malang
+            adalah tempat di mana setiap sudutnya menyimpan kehangatan.
+          </p>
+        </div>
+
+        <div class="glass p-8 rounded-3xl space-y-6">
+          <div>
+            <p class="text-sm text-gray-400">Popularitas Traveler</p>
+            <p class="text-3xl font-black text-blue-500">29.4%</p>
+          </div>
+          <div>
+            <p class="text-sm text-gray-400">Kategori</p>
+            <p class="font-semibold">Alam • Edukasi • Heritage</p>
+          </div>
+          <div>
+            <p class="text-sm text-gray-400">Ikon Kota</p>
+            <p class="font-semibold">Tugu Malang, Jatim Park, Bromo</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-24 px-6 bg-[#050505]">
+      <div class="max-w-6xl mx-auto">
+        <h2 class="text-3xl font-black mb-10">
+          Galeri <span class="text-blue-500">Malang</span>
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div
+            class="overflow-hidden rounded-2xl aspect-video md:aspect-square lg:aspect-video"
+          >
+            <img
+              src="https://tse1.mm.bing.net/th/id/OIP.I3boN-xyXZu3oijkZYFRxgHaE6?pid=Api&h=220&P=0"
+              alt="Gunung Bromo Malang"
+              class="w-full h-full object-cover hover:scale-110 transition duration-500 cursor-pointer"
+            />
+          </div>
+
+          <div
+            class="overflow-hidden rounded-2xl aspect-video md:aspect-square lg:aspect-video"
+          >
+            <img
+              src="https://tse1.mm.bing.net/th/id/OIP.RACdZv1Y2vys5tjcYqeHAAHaE7?pid=Api&h=220&P=0"
+              alt="Kampung Warna Warni Jodipan"
+              class="w-full h-full object-cover hover:scale-110 transition duration-500 cursor-pointer"
+            />
+          </div>
+
+          <div
+            class="overflow-hidden rounded-2xl aspect-video md:aspect-square lg:aspect-video"
+          >
+            <img
+              src="https://thumbs.dreamstime.com/b/view-batu-city-indonesia-night-colorful-lights-view-batu-city-indonesia-night-colorful-lights-144191882.jpg"
+              alt="Batu City Night"
+              class="w-full h-full object-cover hover:scale-110 transition duration-500 cursor-pointer"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-24 px-6 text-center">
+      <h2 class="text-4xl font-black mb-6">Rasakan Kesejukan Bumi Arema</h2>
+      <a
+        href="../index.html#map-section"
+        class="inline-block px-10 py-4 bg-blue-600 hover:bg-blue-700 rounded-full font-bold transition"
+      >
+        Pilih Kota Lain
+      </a>
+    </section>
+
+    <script>
+      const malangImages = [
+        "https://images.unsplash.com/photo-1505993597083-3bd19fb75e57?q=80&w=1920", // Bromo Landscape
+        "https://images.unsplash.com/photo-1627993079844-399672658145?q=80&w=1920", // Jodipan
+        "https://images.unsplash.com/photo-1600350285640-5e340636cc68?q=80&w=1920", // Heritage buildings
+        "https://images.unsplash.com/photo-1589308454676-4636952706b4?q=80&w=1920", // Mountains
+      ];
+
+      let index = 0;
+      const bgContainer = document.getElementById("malang-bg");
+      const timerBar = document.getElementById("malang-timer");
+
+      malangImages.forEach((img, i) => {
+        const div = document.createElement("div");
+        div.className = `bg-slide ${i === 0 ? "active" : ""}`;
+        div.style.backgroundImage = `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.6)), url('${img}')`;
+        bgContainer.appendChild(div);
+      });
+
+      function nextSlide() {
+        const slides = document.querySelectorAll(".bg-slide");
+        slides[index].classList.remove("active");
+        index = (index + 1) % malangImages.length;
+        slides[index].classList.add("active");
+        startTimer();
+      }
+
+      function startTimer() {
+        timerBar.style.transition = "none";
+        timerBar.style.width = "0%";
+        setTimeout(() => {
+          timerBar.style.transition = "width 10000ms linear";
+          timerBar.style.width = "100%";
+        }, 50);
+      }
+
+      setInterval(nextSlide, 10000);
+      startTimer();
+    </script>
+  </body>
+</html>

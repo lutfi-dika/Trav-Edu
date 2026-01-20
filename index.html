@@ -1,0 +1,388 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TravEdu Indonesia</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      /* --- Animasi Hero & UI --- */
+      .bg-layer {
+        position: absolute;
+        inset: 0;
+        background-size: cover;
+        background-position: center;
+        transition:
+          opacity 1.5s ease-in-out,
+          transform 10s linear;
+        opacity: 0;
+        transform: scale(1.1);
+      }
+      .bg-layer.active {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      .dropdown-menu {
+        display: none;
+        opacity: 0;
+        transform: translateY(10px);
+        transition: all 0.3s ease;
+      }
+      .dropdown-menu.show {
+        display: block;
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .glass-card {
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(15px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+      }
+
+      /* --- Style Peta Interaktif --- */
+      .island-path {
+        fill: #111;
+        stroke: #333;
+        stroke-width: 2;
+      }
+      .city-node {
+        fill: #ef4444;
+        stroke: rgba(255, 255, 255, 0.5);
+        stroke-width: 2;
+        cursor: pointer;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      }
+      .city-node:hover {
+        r: 12;
+        fill: #fff;
+        stroke: #ef4444;
+        filter: drop-shadow(0 0 20px #ef4444);
+      }
+
+      /* --- Progress Bar --- */
+      .progress-bg {
+        background: rgba(255, 255, 255, 0.1);
+        height: 6px;
+        border-radius: 10px;
+        overflow: hidden;
+      }
+      .progress-fill {
+        background: linear-gradient(90deg, #ef4444, #f97316);
+        height: 100%;
+        transition: width 0.8s ease-out;
+      }
+
+      .tooltip {
+        position: absolute;
+        pointer-events: none;
+        background: rgba(0, 0, 0, 0.9);
+        color: white;
+        padding: 12px;
+        border-radius: 12px;
+        font-size: 12px;
+        display: none;
+        z-index: 100;
+        border: 1px solid rgba(239, 68, 68, 0.4);
+      }
+    </style>
+  </head>
+  <body class="bg-black text-white font-sans overflow-x-hidden">
+    <nav
+      class="fixed top-0 w-full z-50 bg-white/10 backdrop-blur-md border-b border-white/10 transition-all duration-300"
+    >
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16 relative">
+          <div class="flex-shrink-0 flex items-center">
+            <span
+              class="text-2xl font-bold bg-gradient-to-r from-red-500 to-orange-400 bg-clip-text text-transparent cursor-pointer"
+              >Trav Edu</span
+            >
+          </div>
+
+          <div class="hidden md:flex space-x-8 items-center">
+            <a
+              href="#"
+              class="text-gray-200 hover:text-white font-medium transition"
+              >Home</a
+            >
+            <a
+              href="#"
+              class="text-gray-200 hover:text-white font-medium transition"
+              >About</a
+            >
+            <div class="relative dropdown-container">
+              <button
+                class="dropdown-btn flex items-center text-gray-200 hover:text-white font-medium focus:outline-none"
+              >
+                Festival <i class="fas fa-chevron-down ml-2 text-xs"></i>
+              </button>
+              <div
+                class="dropdown-menu absolute left-0 mt-4 w-48 bg-white text-black rounded-xl shadow-xl py-2 z-50"
+              >
+                <a
+                  href="Festival.html"
+                  class="block px-4 py-2 text-sm hover:bg-gray-100 transition"
+                  >Cari Festival</a
+                >
+              </div>
+            </div>
+
+            <!-- KUliner Makanan -->
+
+            <div class="relative dropdown-container">
+              <button
+                class="dropdown-btn flex items-center text-gray-200 hover:text-white font-medium focus:outline-none"
+              >
+                Kuliner Makanan <i class="fas fa-chevron-down ml-2 text-xs"></i>
+              </button>
+              <div
+                class="dropdown-menu absolute left-0 mt-4 w-48 bg-white text-black rounded-xl shadow-xl py-2 z-50"
+              >
+                <a
+                  href="#"
+                  class="block px-4 py-2 text-sm hover:bg-gray-100 transition"
+                  >Cari Kuliner Makanan</a
+                >
+              </div>
+            </div>
+
+            <!-- Tempat Wisata -->
+            <div class="relative dropdown-container">
+              <button
+                class="dropdown-btn flex items-center text-gray-200 hover:text-white font-medium focus:outline-none"
+              >
+                Tempat Wisata <i class="fas fa-chevron-down ml-2 text-xs"></i>
+              </button>
+              <div
+                class="dropdown-menu absolute left-0 mt-4 w-48 bg-white text-black rounded-xl shadow-xl py-2 z-50"
+              >
+                <a
+                  href="#"
+                  class="block px-4 py-2 text-sm hover:bg-gray-100 transition"
+                  >Cari tempat Wisata</a
+                >
+              </div>
+            </div>
+          </div>
+
+          <div class="flex items-center space-x-4">
+            <button
+              id="search-btn"
+              class="p-2 text-gray-200 hover:text-white transition focus:outline-none"
+            >
+              <i class="fas fa-search"></i>
+            </button>
+            <a
+              href="#"
+              class="hidden sm:block bg-red-600 text-white px-5 py-2 rounded-lg font-medium hover:bg-red-700 shadow-lg"
+              >Explore Now</a
+            >
+          </div>
+
+          <div
+            id="search-container"
+            class="absolute inset-0 flex items-center bg-black/95 transform scale-x-95 opacity-0 pointer-events-none transition-all duration-300 origin-right rounded-lg"
+          >
+            <div class="flex w-full items-center px-4">
+              <i class="fas fa-search text-gray-400 mr-3"></i>
+              <input
+                type="text"
+                placeholder="Cari kota atau destinasi..."
+                class="w-full bg-transparent border-none outline-none text-white focus:ring-0"
+              />
+              <button
+                id="close-search"
+                class="p-2 text-gray-400 hover:text-white"
+              >
+                <i class="fas fa-times text-xl"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <section
+      class="relative h-screen w-full overflow-hidden flex items-center justify-center"
+    >
+      <div id="bg-container" class="absolute inset-0"></div>
+      <div
+        class="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/80 z-10"
+      ></div>
+      <div class="relative z-20 text-center px-6 max-w-4xl">
+        <h2
+          class="text-red-500 font-bold tracking-[0.4em] uppercase mb-4 text-sm animate-pulse"
+        >
+          Travel Edukasi Indonesia
+        </h2>
+        <h1
+          class="text-5xl md:text-8xl font-black mb-6 tracking-tighter leading-none uppercase"
+        >
+          Trav
+          <span
+            class="text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-300 to-gray-500"
+            >Edu</span
+          >
+        </h1>
+        <p
+          class="text-gray-300 text-lg md:text-xl max-w-2xl mx-auto mb-10 font-light italic opacity-80"
+        >
+          "Pilih kota tujuanmu dan lihat antusiasme para traveler lainnya secara
+          real-time."
+        </p>
+        <div
+          class="flex flex-col sm:flex-row items-center justify-center gap-4"
+        >
+          <a
+            href="#map-section"
+            class="w-full sm:w-auto px-10 py-4 bg-red-600 hover:bg-red-700 rounded-full font-bold transition-all transform hover:scale-105 shadow-xl shadow-red-600/30"
+            >Mulai Perjalanan</a
+          >
+          <button
+            class="w-full sm:w-auto px-10 py-4 glass-card hover:bg-white/10 rounded-full font-bold transition-all border border-white/20"
+          >
+            Lihat Galeri <i class="fas fa-arrow-right ml-2 text-xs"></i>
+          </button>
+        </div>
+      </div>
+      <div
+        id="timer-bar"
+        class="absolute bottom-0 left-0 h-1 bg-red-600 z-30 transition-all ease-linear"
+        style="width: 0%"
+      ></div>
+    </section>
+
+    <section
+      id="map-section"
+      class="py-28 px-6 bg-gradient-to-b from-[#050505] to-black flex flex-col items-center"
+    >
+      <!-- HEADER -->
+      <div class="text-center mb-20">
+        <h2
+          class="text-red-500 font-bold tracking-[0.3em] uppercase text-sm mb-3"
+        >
+          Destinasi Pilihan
+        </h2>
+        <h1 class="text-4xl md:text-6xl font-black italic">
+          Kota
+          <span
+            class="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-orange-400"
+            >Terbaik</span
+          >
+        </h1>
+        <p class="text-gray-400 mt-6 max-w-xl mx-auto">
+          Pilih kota tujuan untuk melihat detail wisata, budaya, dan daya
+          tariknya.
+        </p>
+      </div>
+
+      <!-- GRID KOTA -->
+      <div
+        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 w-full max-w-6xl"
+      >
+        <!-- JAKARTA -->
+        <div
+          onclick="goCity('Jakarta')"
+          class="group cursor-pointer glass-card rounded-3xl overflow-hidden relative hover:scale-[1.04] transition-all duration-300"
+        >
+          <img
+            src="https://travelinkmagz.com/wp-content/uploads/2020/04/JKT_Monas_1920x1080px_1.jpg"
+            class="absolute inset-0 w-full h-full object-cover opacity-30 group-hover:opacity-60 transition"
+          />
+          <div class="relative p-8 h-full flex flex-col justify-end">
+            <h3 class="text-3xl font-black mb-2">Jakarta</h3>
+            <p class="text-gray-300 text-sm mb-4">
+              Metropolitan • Sejarah • Urban
+            </p>
+            <span class="text-red-500 font-bold text-sm">
+              Jelajahi Kota →
+            </span>
+          </div>
+        </div>
+
+        <!-- BANDUNG -->
+        <div
+          onclick="goCity('Bandung')"
+          class="group cursor-pointer glass-card rounded-3xl overflow-hidden relative hover:scale-[1.04] transition-all duration-300"
+        >
+          <img
+            src="https://idetrips.com/wp-content/uploads/2020/07/kawah-ratu-tangkuban-parahu.jpg"
+            class="absolute inset-0 w-full h-full object-cover opacity-30 group-hover:opacity-60 transition"
+          />
+          <div class="relative p-8 h-full flex flex-col justify-end">
+            <h3 class="text-3xl font-black mb-2">Bandung</h3>
+            <p class="text-gray-300 text-sm mb-4">Alam • Kreatif • Kuliner</p>
+            <span class="text-red-500 font-bold text-sm">
+              Jelajahi Kota →
+            </span>
+          </div>
+        </div>
+
+        <!-- BALI -->
+        <div
+          onclick="goCity('Bali')"
+          class="group cursor-pointer glass-card rounded-3xl overflow-hidden relative hover:scale-[1.04] transition-all duration-300"
+        >
+          <img
+            src="https://www.theungasan.com/wp-content/uploads/2020/01/Tanah-Lot-Temple.jpg"
+            class="absolute inset-0 w-full h-full object-cover opacity-30 group-hover:opacity-60 transition"
+          />
+          <div class="relative p-8 h-full flex flex-col justify-end">
+            <h3 class="text-3xl font-black mb-2">Bali</h3>
+            <p class="text-gray-300 text-sm mb-4">
+              Budaya • Pantai • Spiritual
+            </p>
+            <span class="text-red-500 font-bold text-sm">
+              Jelajahi Kota →
+            </span>
+          </div>
+        </div>
+
+        <!-- MALANG -->
+        <div
+          onclick="goCity('Malang')"
+          class="group cursor-pointer glass-card rounded-3xl overflow-hidden relative hover:scale-[1.04] transition-all duration-300"
+        >
+          <img
+            src="https://www.bugbog.com/wp-content/uploads/2022/05/dc76a908affc27f2/mount-bromo.jpeg"
+            class="absolute inset-0 w-full h-full object-cover opacity-30 group-hover:opacity-60 transition"
+          />
+          <div class="relative p-8 h-full flex flex-col justify-end">
+            <h3 class="text-3xl font-black mb-2">Malang</h3>
+            <p class="text-gray-300 text-sm mb-4">
+              Pegunungan • Edukasi • Alam
+            </p>
+            <span class="text-red-500 font-bold text-sm">
+              Jelajahi Kota →
+            </span>
+          </div>
+        </div>
+
+        <!-- JOGJA -->
+        <div
+          onclick="goCity('Jogja')"
+          class="group cursor-pointer glass-card rounded-3xl overflow-hidden relative hover:scale-[1.04] transition-all duration-300"
+        >
+          <img
+            src="https://2.bp.blogspot.com/-kBJIgYcYtzo/Vqt7vCnT1LI/AAAAAAAABQ0/nYxWtho7zik/s1600/2.jpg"
+            class="absolute inset-0 w-full h-full object-cover opacity-30 group-hover:opacity-60 transition"
+          />
+          <div class="relative p-8 h-full flex flex-col justify-end">
+            <h3 class="text-3xl font-black mb-2">Jogja</h3>
+            <p class="text-gray-300 text-sm mb-4">Budaya • Sejarah • Edukasi</p>
+            <span class="text-red-500 font-bold text-sm">
+              Jelajahi Kota →
+            </span>
+          </div>
+        </div>
+      </div>
+    </section>
+    <script src="./js/script.js"></script>
+  </body>
+</html>
